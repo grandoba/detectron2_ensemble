@@ -1,0 +1,46 @@
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.315
+ Average Precision  (AP) @[ IoU=0.50      | area=   all | maxDets=100 ] = 0.441
+ Average Precision  (AP) @[ IoU=0.75      | area=   all | maxDets=100 ] = 0.350
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.237
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.386
+ Average Precision  (AP) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.392
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=  1 ] = 0.341
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets= 10 ] = 0.561
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=   all | maxDets=100 ] = 0.622
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= small | maxDets=100 ] = 0.424
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area=medium | maxDets=100 ] = 0.663
+ Average Recall     (AR) @[ IoU=0.50:0.95 | area= large | maxDets=100 ] = 0.773
+[10/18 15:00:34 d2.evaluation.coco_evaluation]: Evaluation results for bbox: 
+|   AP   |  AP50  |  AP75  |  APs   |  APm   |  APl   |
+|:------:|:------:|:------:|:------:|:------:|:------:|
+| 31.475 | 44.089 | 35.003 | 23.749 | 38.566 | 39.151 |
+[10/18 15:00:34 d2.evaluation.coco_evaluation]: Per-category bbox AP: 
+| category      | AP     | category     | AP     | category       | AP     |
+|:--------------|:-------|:-------------|:-------|:---------------|:-------|
+| person        | 37.626 | bicycle      | 24.973 | car            | 30.944 |
+| motorcycle    | 32.602 | airplane     | 48.579 | bus            | 46.822 |
+| train         | 44.972 | truck        | 26.431 | boat           | 21.689 |
+| traffic light | 20.471 | fire hydrant | 53.688 | stop sign      | 50.385 |
+| parking meter | 38.089 | bench        | 19.587 | bird           | 26.191 |
+| cat           | 47.750 | dog          | 45.577 | horse          | 43.575 |
+| sheep         | 37.389 | cow          | 39.185 | elephant       | 43.178 |
+| bear          | 52.784 | zebra        | 50.500 | giraffe        | 51.253 |
+| backpack      | 13.818 | umbrella     | 29.716 | handbag        | 12.758 |
+| tie           | 26.044 | suitcase     | 31.297 | frisbee        | 50.447 |
+| skis          | 19.813 | snowboard    | 27.397 | sports ball    | 34.207 |
+| kite          | 32.371 | baseball bat | 25.992 | baseball glove | 29.812 |
+| skateboard    | 40.907 | surfboard    | 28.863 | tennis racket  | 38.855 |
+| bottle        | 28.079 | wine glass   | 26.960 | cup            | 30.482 |
+| fork          | 29.106 | knife        | 16.645 | spoon          | 16.676 |
+| bowl          | 29.599 | banana       | 17.782 | apple          | 18.102 |
+| sandwich      | 25.437 | orange       | 21.789 | broccoli       | 17.409 |
+| carrot        | 18.112 | hot dog      | 28.047 | pizza          | 35.520 |
+| donut         | 30.190 | cake         | 26.949 | chair          | 21.426 |
+| couch         | 31.010 | potted plant | 21.061 | bed            | 30.733 |
+| dining table  | 22.500 | toilet       | 45.619 | tv             | 41.439 |
+| laptop        | 43.579 | mouse        | 45.104 | remote         | 24.577 |
+| keyboard      | 38.478 | cell phone   | 27.877 | microwave      | 40.194 |
+| oven          | 27.295 | toaster      | 36.639 | sink           | 28.417 |
+| refrigerator  | 39.697 | book         | 12.579 | clock          | 37.917 |
+| vase          | 27.128 | scissors     | 21.073 | teddy bear     | 35.969 |
+| hair drier    | 4.928  | toothbrush   | 19.359 |
