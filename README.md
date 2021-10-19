@@ -74,19 +74,50 @@ python3 main.py --mode 5
 | model 3 | 39.614     | 56.974 | 43.858 | 22.577 | 42.940 | 52.098 |
 | Ensemble| **43.299** | 63.993 | 47.095 | 27.171 | 47.716 | 54.641 |
 
-model 1: faster_rcnn_R_50_DC5_3x
-model 2: retinanet_R_101_FPN_3x
-model 3: faster_rcnn_X_101_32x8d_FPN_3x
-Ensemble: Weighed Boxes Fusion
+* model 1: faster_rcnn_R_50_DC5_3x
+
+* model 2: retinanet_R_101_FPN_3x
+
+* model 3: faster_rcnn_X_101_32x8d_FPN_3x
+
+* Ensemble: Weighed Boxes Fusion
 
 More detailed results are in the `results/` folder.
+
+Below is the original image.
+<p align="center">
+   <img src="imgs/img_original.png" alt="Original">
+</p>
+
+**Model 1**
+
+<p align="center">
+   <img src="imgs/img_model1.png" alt="Model 1">
+</p>
+
+**Model 2**
+
+<p align="center">
+   <img src="imgs/img_model2.png" alt="Model 2">
+</p>
+
+**Model 3**
+
+<p align="center">
+   <img src="imgs/img_model3.png" alt="Model 3">
+</p>
+
+**Weighted Boxes Fusion**
+<p align="center">
+   <img src="imgs/img_wbf.png" alt="WBF Explanation">
+</p>
 
 
 ## Weighed Boxes Fusion - Explanation
 
-
-
-![WBF Explanation](imgs/wbf.png)
+<p align="center">
+   <img src="imgs/wbf.png" alt="WBF Explanation">
+</p>
 
 Stating in simple terms, WBF groups bounding boxes of i) IoUs over a threshold (0.55 in this paper) and ii) the same class. The grouped bounding boxes are considered as one object. The bounding boxes are adjusted by the weight of each bounding box prediction. This approach showed superior performance over Non-Maximum Supression (NMS) variants.
 

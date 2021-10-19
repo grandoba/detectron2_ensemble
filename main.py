@@ -4,7 +4,7 @@
 
 import torch, torchvision
 from torch.nn.functional import threshold
-# check pytorch installation: 
+# check pytorch installation:
 print(torch.__version__, torch.cuda.is_available())
 print(torchvision.__version__)
 assert torch.__version__.startswith("1.9")   # please manually install torch 1.9 if Colab changes its default version
@@ -50,7 +50,7 @@ from ensemble_models import *
 
 class Eval:
     def __init__(self, model1_yaml="faster_rcnn_R_50_DC5_3x.yaml", model2_yaml="retinanet_R_101_FPN_3x.yaml", model3_yaml="faster_rcnn_X_101_32x8d_FPN_3x.yaml"):
-        
+
         print(f"\n\nMODEL 1: {model1_yaml}\n")
         yaml_path1 = os.path.join("COCO-Detection",model1_yaml)
         self.cfg1 = get_cfg()
@@ -138,7 +138,7 @@ class Eval:
             k = cv2.waitKey(0)
             if k==27: #ESC
                 break
-    
+
     def concat_models_test(self):
         #################### MODEL Concatenation ###############################
         print("\nMODEL Concatenation\n")
@@ -224,7 +224,7 @@ class Eval:
             k = cv2.waitKey(0)
             if k==27: # ESC
                 break
-    
+
     def groupNchoose_test(self):
         #################### MODEL Group And Choose ###############################
         print("\nMODEL Group And Choose\n")
@@ -233,7 +233,7 @@ class Eval:
         gnc = Group_And_Choose(self.predictor1,self.predictor2,self.predictor3,0.5,0.7)
         sumin_inference_on_dataset(gnc, val_loader, evaluator)
         print("FINISH GROUP & CHOOSE")
-    
+
     def WBF_one(self, image_id, skip_thr=0):
         """
             image_id    : string    (e.g. "000000439715.jpg")
@@ -249,7 +249,7 @@ class Eval:
 
 
         ## STEP 0: FIND ALL BBOXES IN IMAGE image_id: read "coco_instances_results.json"
-        
+
         f = open("output1/coco_instances_results.json")
         json1 = json.load(f)
         f = open("output2/coco_instances_results.json")
@@ -313,7 +313,7 @@ class Eval:
             new_box3[:,[1,3]] = new_box3[:,[1,3]]/img_shp[0] #normalize y by height
             new_box3[:,[0,2]] = new_box3[:,[0,2]]/img_shp[1] #normalize x by width
             labels3 = np.asarray([dataset_id_map(predictions3[i]['category_id']) for i in chosen3])
-            
+
         ## STEP 3: weighted_box_fusion APPLY
             weights = [1,1,1] # CHANGE IT LATER ACCORDING TO TOTAL AP SCORE PROPORTIONS
             boxes_list = [new_box1.tolist(), new_box2.tolist(), new_box3.tolist()]
@@ -367,7 +367,7 @@ class Eval:
             v_gt = v.draw_dataset_dict(dic).get_image()
             concat = np.concatenate((v_pred,v_gt), axis=1)
             cv2.imshow("model 3: pred & gt", concat[:, :, ::-1])
-            
+
             v = Visualizer(img, metadata, scale=1.2)
             v_pred = v.draw_instance_predictions(ret_final).get_image()
             v = Visualizer(img, metadata, scale=1.2)
@@ -379,7 +379,7 @@ class Eval:
                 k = cv2.waitKey(0)
                 if k==27: # ESC
                     break
-            
+
     def WBF_test(self, skip_thr=0.0):
         """
             image_id    : string    (e.g. "000000439715.jpg")
@@ -450,7 +450,7 @@ class Eval:
             new_box3[:,[1,3]] = new_box3[:,[1,3]]/img_shp[0] #normalize y by height
             new_box3[:,[0,2]] = new_box3[:,[0,2]]/img_shp[1] #normalize x by width
             labels3 = np.asarray([dataset_id_map(predictions3[i]['category_id']) for i in chosen3])
-            
+
         ## STEP 3: weighted_box_fusion APPLY
             weights = [1,1,1] # CHANGE IT LATER ACCORDING TO TOTAL AP SCORE PROPORTIONS
             boxes_list = [new_box1.tolist(), new_box2.tolist(), new_box3.tolist()]
@@ -476,23 +476,23 @@ class Eval:
         evaluator.evaluate()
 
 
-    
+
 
 #### MAIN ####
-def main(mode:int):
+def main(mode:float):
 
     eval = Eval()
     """
         Default settings
             + model1_yaml="faster_rcnn_R_50_DC5_3x.yaml"
-            + model2_yaml="retinanet_R_101_FPN_3x.yaml" 
+            + model2_yaml="retinanet_R_101_FPN_3x.yaml"
             + model3_yaml="faster_rcnn_X_101_32x8d_FPN_3x.yaml"
-            
+
     """
     if mode==1:
         eval.evaluate_pretrained()
     elif mode==2:
-        eval.concat_models_test()        
+        eval.concat_models_test()
     elif mode==2.1:
         eval.evaluate_one("000000439715.jpg")
     elif mode==3:
@@ -508,7 +508,7 @@ def main(mode:int):
     elif mode==4.1:
         eval.grouping_one("000000439715.jpg")
     elif mode==5:
-        eval.WBF_test(skip_thr=0.0)    
+        eval.WBF_test(skip_thr=0.0)
     elif mode==5.1:
         eval.WBF_one("000000439715.jpg", skip_thr=0.0)
     else:
@@ -522,16 +522,16 @@ if __name__ == "__main__":
     parser.add_argument("--mode", required=True, help="Explanation of modes are at the bottom of the script")
     args = parser.parse_args()
     """
-    SET MODE 
+    SET MODE
     * mode = 1    : Get AP result for Model 1,2,3
     * mode = 2    : Concatenate Models Test
     * mode = 2.1  : Visual Comparison of Model 1,2,3, and Concatenated Model
     * mode = 3    : score 낮은 bbox 없애는 model (FP를 줄이는 방안)
     * mode = 3.1  : Classification이 모두 틀리면 AP에 영향을 끼치는가? YES!
-    * mode = 3.2  : score 낮은 bbox 없애기 for 1 image and visualize 
+    * mode = 3.2  : score 낮은 bbox 없애기 for 1 image and visualize
     * mode = 4    : Group and Choose Model Test
     * mode = 4.1  : Group and Choose single image test & visualization
-    * mode = 5  : Weighted Box Fusion Model Test
+    * mode = 5    : Weighted Box Fusion Model Test
     * mode = 5.1  : Weighted Box Fusion single image test & visualization
     """
     print(f"#######################\n##### MODE IS [{args.mode}] #####\n#######################\n")
@@ -539,6 +539,4 @@ if __name__ == "__main__":
     if not os.path.exists("datasets"):
         raise ValueError("You Need To Have 'datasets' directory in the working directory! Check out the Prerequisite section from 'README.md' file")
 
-    main(mode=int(args.mode))
-
-
+    main(mode=float(args.mode))
