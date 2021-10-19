@@ -4,17 +4,16 @@
 
 import torch, torchvision
 from torch.nn.functional import threshold
-# import some common libraries
-import cv2, random, json, os
-import argparse, tqdm
-import matplotlib.pyplot as plt
-from scipy.optimize import linear_sum_assignment
-import numpy as np
-from collections import defaultdict
 # check pytorch installation: 
 print(torch.__version__, torch.cuda.is_available())
 print(torchvision.__version__)
 assert torch.__version__.startswith("1.9")   # please manually install torch 1.9 if Colab changes its default version
+
+# import some common libraries
+import cv2, random, json, os, argparse, tqdm
+import numpy as np
+from collections import defaultdict
+
 
 # Some basic setup:
 # Setup detectron2 logger
@@ -59,6 +58,7 @@ class Eval:
         self.cfg1.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5  # set threshold for this model
         self.cfg1.MODEL.WEIGHTS = model_zoo.get_checkpoint_url(yaml_path1)
         self.predictor1 = DefaultPredictor(self.cfg1)
+
         print(f"\n\nMODEL 2: {model2_yaml}\n")
         yaml_path2 = os.path.join("COCO-Detection",model2_yaml)
         self.cfg2 = get_cfg()
@@ -66,6 +66,7 @@ class Eval:
         self.cfg2.MODEL.ROI_HEADS.SCORE_THRESH_TEST = 0.5  # set threshold for this model
         self.cfg2.MODEL.WEIGHTS = model_zoo.get_checkpoint_url(yaml_path2)
         self.predictor2 = DefaultPredictor(self.cfg2)
+
         print(f"\n\nMODEL 3: {model3_yaml}\n")
         yaml_path3 = os.path.join("COCO-Detection",model3_yaml)
         self.cfg3 = get_cfg()
@@ -533,7 +534,7 @@ if __name__ == "__main__":
     * mode = 5  : Weighted Box Fusion Model Test
     * mode = 5.1  : Weighted Box Fusion single image test & visualization
     """
-    print(f"######################\n######## MODE IS [{args.mode}] ########\n#######################\n")
+    print(f"#######################\n##### MODE IS [{args.mode}] #####\n#######################\n")
     print("CAUTION: Must run mode==1 if running the first time.\n############################################")
     if not os.path.exists("datasets"):
         raise ValueError("You Need To Have 'datasets' directory in the working directory! Check out the Prerequisite section from 'README.md' file")

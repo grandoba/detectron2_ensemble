@@ -1,5 +1,4 @@
 import numpy as np
-import scipy
 
 def xyxy_IoU(bbox1:np.array, bbox2:np.array) -> float:
     """
