@@ -5,5 +5,5 @@ output2/
 output3/
 output_model/
 .ipynb_checkpoints/
-.vscode/
-
+__pycache__/
+dump/

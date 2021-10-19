@@ -58,12 +58,16 @@ def choose_one_from(all_instances, parts) -> Instances:
     return pick_last
 
 
-def group_and_choose(out1:list,out2:list,out3:list, threshold=0.5) -> list:
+def group_and_choose(out1:list,out2:list,out3:list, threshold=0.5, lower_threshold=0) -> list:
     """
         out의 format: list({dict})
         out1[0]["instances"] : Instances
         out2[0]["instances"] : Instances
         out3[0]["instances"] : Instances
+        threshold : float
+            IoU > threshold will be considered as matched bboxes 
+        lower_threshold: float
+            remove bboxes below this threshold (0 means not removing any bboxes)
 
     """
     # Group detected bboxes by IoU >= threshold and same class
@@ -98,7 +102,7 @@ def group_and_choose(out1:list,out2:list,out3:list, threshold=0.5) -> list:
             all_non_grouped.append(i)
     scores = np.array([all_instances[i].scores.cpu().numpy().item(0) for i in all_non_grouped])
     parts_of_instances = [all_instances[i] for i in all_non_grouped]
-    trueORfalse = scores > 0.9
+    trueORfalse = scores > lower_threshold
     for idx, tof in enumerate(trueORfalse):
         if tof:
             instance_list.append(parts_of_instances[idx])
@@ -113,17 +117,19 @@ def group_and_choose(out1:list,out2:list,out3:list, threshold=0.5) -> list:
 
 
 class Group_And_Choose(object):
-    def __init__(self, predictor1, predictor2, predictor3):
+    def __init__(self, predictor1, predictor2, predictor3, thr1=0.5, thr2=0):
         self.predictors = []
         self.predictors.append(predictor1)
         self.predictors.append(predictor2)
         self.predictors.append(predictor3)
+        self.threshold = thr1
+        self.lower_threshold = thr2
 
     def __call__(self,inputs) -> dict:
         out1 = self.predictors[0].model(inputs)
         out2 = self.predictors[1].model(inputs)
         out3 = self.predictors[2].model(inputs)
-        output = group_and_choose(out1,out2,out3, threshold=0.5)
+        output = group_and_choose(out1,out2,out3, self.threshold, self.lower_threshold)
         return output
 
 class ConcatModels(object):
@@ -172,3 +178,10 @@ class ErroneousClasses(object):
         z = z.to('cuda:0')
         outputs[0]['instances'].pred_classes = z
         return outputs
+
+# class WBFmodel(object):
+#     def __init__(self, predictions_per_image: list):
+#         self.predictions = predictions_per_image
+#     def __call__(self,inputs) -> dict:
+#         outputs = 
+#         return outputs
